@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Patients</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbpCdJSJFxfLfL7lrcAqc9wAxBQr2gXjJnew+VY9EXRQa+yzU/a0+I9g8" crossorigin="anonymous">
+</head>
+<body>
+<!-- Main Content Area -->
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" layout:fragment="content">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Patients</h1>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createPatientModal">
+            Create
+        </button>
+    </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Prenom</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Adresse</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${patients.isEmpty()}">
+            <td colspan="5">No Patients Available</td>
+        </tr>
+        <tr th:each="patient : ${patients}">
+            <td><a th:href="@{/dossier/{id}(id=${patient.id})}" th:text="${patient.id}"></a></td>
+            <td><span th:text="${patient.prenom}"></span></td>
+            <td><span th:text="${patient.nom}"></span></td>
+            <td><span th:text="${patient.adresse}"></span></td>
+            <td>
+                <!-- Actions like edit, delete can go here -->
+                <a th:href="@{/deletePatient/{id}(id=${patient.id})}" class="btn btn-danger">Supprimer</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Create Patient Modal -->
+    <div class="modal fade" id="createPatientModal" tabindex="-1" aria-labelledby="createPatientModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createPatientModalLabel">Create Patient</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Patient Form -->
+                    <form role="form" method="post" th:action="@{/createPatient}" th:object="${patient}">
+                        <div class="mb-3">
+                            <label for="nom" class="form-label">Nom</label>
+                            <input type="text" class="form-control" id="nom" th:field="*{nom}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="prenom" class="form-label">Prenom</label>
+                            <input type="text" class="form-control" id="prenom" th:field="*{prenom}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dateNaissance" class="form-label">Date de Naissance</label>
+                            <input type="date" class="form-control" id="dateNaissance" th:field="*{dateNaissance}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="profession" class="form-label">Profession</label>
+                            <input type="text" class="form-control" id="profession" th:field="*{profession}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" th:field="*{email}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="adresse" class="form-label">Adresse</label>
+                            <input type="text" class="form-control" id="adresse" th:field="*{adresse}" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Create</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RHfYeUU1qYWNybH9BSxRguA/h/X1kFRjfbB4Yd0ZCMM0Utk/esb72l+QeU" crossorigin="anonymous"></script>
+</body>
+</html>

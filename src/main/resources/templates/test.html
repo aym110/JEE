@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{dossierLayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab" layout:fragment="content1">
+<h1> GHir test </h1>
+<table class="table">
+    <thead>
+    <tr>
+
+        <th scope="col">Acte</th>
+        <th scope="col">Dent</th>
+        <th scope="col">Prix</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${cslts.isEmpty()}">
+        <td colspan="5">Pas de intervs</td>
+    </tr>
+    <tr th:each="inter : ${cslts}">
+        <td><span th:text="${inter.acte}"></span></td>
+        <td><span th:text="${inter.dent}"></span></td>
+        <td><span th:text="${inter.prix}"></span></td>
+        <td>
+            <!-- Actions like edit, delete can go here -->
+        </td>
+    </tr>
+    </tbody>
+</table>
+</div>
+</body>
+</html>
